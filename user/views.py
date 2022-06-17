@@ -5,6 +5,9 @@ from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework import permissions  # 권한 설정 해주는 permissions 클래스
 from rest_framework.response import Response  # Response를 임포트해서 사용할 것이다.
+# 로그인 및 로그아웃에 사용
+from django.contrib.auth import login, authenticate, logout
+
 # FBV
 # def user(request):
 #     if request.method == 'GET':
@@ -53,9 +56,10 @@ class UserView(APIView):
         result = sum_numbers(*numbers)
         return Response({'message': f'post method is {result}'})
 
+    # 로그인
     def post(self, request):
-        # 회원가입
-        return Response({'message': 'post method'})
+
+        return Response({'message': '로그인 성공!!'})
 
     def put(self, request):
         # 회원 정보 수정
@@ -66,7 +70,17 @@ class UserView(APIView):
         return Response({'message': 'delete method'})
 
 
-def user_view(request):
-    if request.method == 'GET':
-        # 조회
-        pass
+class UserAPIView(APIView):
+    ###### 권한 설정 해주는 permissions 클래스#######
+    permission_classes = [permissions.AllowAny]  # 모두 사용가능
+
+    def post(self, request):
+        username = request.data.get('username', '')
+        password = request.data.get('password', '')
+        # 변수 user에는 인증에 성공하면 user가 담기고, 인증 실패하면 None이 담긴다.
+        user = authenticate(request, username=username, password=password)
+
+        if not user:
+            return Response({'message': '아이디 또는 비밀번호가 올바르지 않습니다.'})
+        login(request, user)
+        return Response({'message': '로그인 성공!!'})

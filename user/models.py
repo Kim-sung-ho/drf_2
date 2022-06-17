@@ -30,7 +30,7 @@ class UserManager(BaseUserManager):
         return user
 
 
-class UserManager(AbstractBaseUser):
+class User(AbstractBaseUser):
     username = models.CharField(max_length=30, unique=True)
     password = models.CharField(max_length=128)
     email = models.EmailField(max_length=30, unique=True)
@@ -70,3 +70,25 @@ class UserManager(AbstractBaseUser):
     @property
     def is_staff(self):
         return self.is_admin
+
+
+# User Profile model
+class UserProfile(models.Model):
+    user = models.OneToOneField(
+        User, verbose_name="사용자", on_delete=models.CASCADE)
+    introduction = models.TextField("자기소개")
+    birth = models.DateField("생일")
+    age = models.IntegerField("나이")
+    hobby = models.ManyToManyField("Hobby", verbose_name="취미")
+
+    def __str__(self):
+        return f'{self.user.username} 님의 프로필'
+
+# Hobby model
+
+
+class Hobby(models.Model):
+    name = models.CharField("취미 이름", max_length=50)
+
+    def __str__(self):
+        return self.name
