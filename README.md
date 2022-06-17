@@ -1,13 +1,13 @@
 
 
 
-1. Django 프로젝트를 생성하고, user 라는 앱을 만들어서 settings.py 에 등록해보세요. o
+1. Django 프로젝트를 생성하고, user 라는 앱을 만들어서 settings.py 에 등록해보세요. 
 
-2. user/models.py에 `Custom user model`을 생성한 후 django에서 user table을 생성 한 모델로 사용할 수 있도록 설정해주세요 o
+2. user/models.py에 `Custom user model`을 생성한 후 django에서 user table을 생성 한 모델로 사용할 수 있도록 설정해주세요 
 
 3. user/models.py에 사용자의 상세 정보를 저장할 수 있는 `UserProfile` 이라는 모델을 생성해주세요
    
-4. blog라는 앱을 만든 후 settings.py에 등록해주세요 o
+4. blog라는 앱을 만든 후 settings.py에 등록해주세요 
    
 5. blog/models.py에 <카테고리 이름, 설명>이 들어갈 수 있는 `Category`라는 모델을 만들어보세요.
    
@@ -20,3 +20,4 @@
 9.  CBV 기반으로 로그인 / 로구아웃 기능을 구현해주세요
     
 10. CBV 기반으로 로그인 한 사용자의 게시글의 제목을 리턴해주는 기능을 구현해주세요
+=====================================완료==========================================
