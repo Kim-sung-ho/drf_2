@@ -20,9 +20,9 @@ class UserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, username, password):
+    def create_superuser(self, username, password=None):
         user = self.create_user(
-            username,
+            username=username,
             password=password,
         )
         user.is_admin = True
@@ -31,22 +31,18 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractBaseUser):
-    username = models.CharField(max_length=30, unique=True)
-    password = models.CharField(max_length=128)
-    email = models.EmailField(max_length=30, unique=True)
-    name = models.CharField(max_length=30)
-    # auto_now_add=True로 최초 생성시 시간을 자동으로 입력해 준다.
-    join_data = models.DateTimeField(auto_now_add=True)
+    username = models.CharField("사용자 계정", max_length=30, unique=True)
+    password = models.CharField("비밀번호", max_length=128)
+    email = models.EmailField("이메일", max_length=30, unique=True, default=True)
+    name = models.CharField("이름", max_length=30, null=True, unique=True)
+    join_data = models.DateTimeField("가입일자", auto_now_add=True, null=True)
 
-    # is_active는 사용자가 이용할 수 있는지 여부를 표시하는 필드이다.
+    # 관리자 여부
     is_active = models.BooleanField(default=True)
-    # is_admin 은 관리자인지 여부를 표시하는 필드이다.
     is_admin = models.BooleanField(default=False)
 
-    # 사용자가 로그인할 때 사용하는 id로 어떤 것을 사용 할 때에 지정을 해준 것.
-    # 여기선 username 을 지정 했고, 다른 값으로도 사용 가능하다.
+    # 유저네임으로 회원가입
     USERNAME_FIELD = 'username'
-
     # 슈퍼계정을 생성 할 때, 입력해야 할 값들을 지정 할 수 있다.
     # 빈값을 입력하면 사용하지 않을 수 있지만 선언은 꼭 해야 된다.
     REQUIRED_FIELDS = []
@@ -88,7 +84,7 @@ class UserProfile(models.Model):
 
 
 class Hobby(models.Model):
-    name = models.CharField("취미 이름", max_length=50)
+    name = models.CharField("취미 이름", max_length=20)
 
     def __str__(self):
         return self.name
